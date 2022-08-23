@@ -2,7 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 
-from apps.users.consts import Role
+from src.apps.users.consts import Role
 
 
 class User(AbstractUser):
@@ -10,9 +10,7 @@ class User(AbstractUser):
         choices=Role.choices, verbose_name='Role',
         default=Role.STUDENT
     )
-    github_link = models.CharField(
-        max_length=120, verbose_name='GitHub Profile'
-    )
+    github_link = models.URLField(verbose_name='GitHub Profile', null=True, blank=True)
 
     def __str__(self):
         return self.username
