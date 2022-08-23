@@ -1,8 +1,12 @@
 [tool.poetry]
-name = "task-book-be"
+name = "upstudy"
 version = "0.1.0"
 description = ""
-authors = ["RG1ee <niwows@yandex.ru>"]
+authors = ["shaggy-axel <ruslan@kortechs.io>", "RG1ee <niwows@yandex.ru>"]
+
+packages = [
+    {include = "src"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -18,3 +22,6 @@ flake8 = "^5.0.4"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+upstudy = "src.manage:main"
