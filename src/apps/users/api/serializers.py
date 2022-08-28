@@ -37,3 +37,17 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict):
         return self.Meta.model.objects.create_user(**validated_data)
+
+
+class ProfileUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "id",
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "role",
+            "github_link"
+        )
