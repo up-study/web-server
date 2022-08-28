@@ -1,2 +1,2 @@
-SECRETE_KEY='Django secrete key'
+SECRET_KEY='Django secrete key'
 DEBUG=bool
