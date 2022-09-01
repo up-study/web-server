@@ -5,4 +5,4 @@ from src.apps.achievements.models import Achievement
 
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ("__str__",)
+    pass

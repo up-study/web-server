@@ -12,7 +12,7 @@ class User(AbstractUser):
         default=Role.STUDENT
     )
     github_link = models.URLField(verbose_name='GitHub Profile', null=True, blank=True)
-    achievement = models.ManyToManyField(Achievement)
+    # achievements = models.ManyToManyField(Achievement)
 
     def __str__(self):
         return self.username
