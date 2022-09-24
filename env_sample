@@ -1,2 +1,8 @@
+# Django
 SECRET_KEY='Django secrete key'
 DEBUG=bool
+
+# DATABASE
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
