@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # my apps
     'src.apps.users',
     'src.apps.achievements',
+    'src.apps.resume',
 ]
 
 MIDDLEWARE = [
