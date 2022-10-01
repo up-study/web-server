@@ -5,7 +5,6 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: sleep 5
       - run: echo "🎉 The Job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -16,7 +15,6 @@ jobs:
       - run: sleep 5
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: List files in the repository
-      - run: sleep 5
         run: |
           ls ${{ github.workspace }}
       - run: sleep 5
