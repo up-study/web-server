@@ -49,7 +49,7 @@ class City(models.Model):
     )
     country = models.ForeignKey(
         Country, on_delete=models.CASCADE, verbose_name="Country",
-        related_name='city' 
+        related_name='city'
     )
 
     def __str__(self):
