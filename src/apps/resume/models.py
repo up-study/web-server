@@ -31,6 +31,34 @@ class Language(models.Model):
         verbose_name_plural = 'Language'
 
 
+class Country(models.Model):
+    name = models.CharField(
+        max_length=170, verbose_name="Country Name"
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Country"
+
+
+class City(models.Model):
+    name = models.CharField(
+        max_length=50, verbose_name="City Name"
+    )
+    country = models.ForeignKey(
+        Country, on_delete=models.CASCADE, verbose_name="Country",
+        related_name='city' 
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "City"
+
+
 class Resume(models.Model):
     # user = models.ForeignKey(
     #     'users.User', on_delete=models.CASCADE,

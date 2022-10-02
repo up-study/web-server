@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from src.apps.resume.models import Language, Resume, ProgramminngLanguage
+from src.apps.resume.models import (
+    Language, Resume, ProgramminngLanguage, Country, City
+)
 
 
 @admin.register(Resume)
@@ -15,4 +17,14 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(ProgramminngLanguage)
 class ProgrammingLanguageAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(City)
+class CityAdmin(admin.ModelAdmin):
     pass
