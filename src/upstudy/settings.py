@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'src.apps.users',
     'src.apps.achievements',
     'src.apps.resume',
+    'src.apps.locations',
 ]
 
 MIDDLEWARE = [
