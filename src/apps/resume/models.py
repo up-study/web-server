@@ -51,10 +51,14 @@ class Resume(models.Model):
     language = models.ManyToManyField(
         Language
     )
+    city = models.ForeignKey(
+        "locations.City", on_delete=models.CASCADE,
+        related_name="cities"
+    )
     # TODO perhaps a study program will be added
 
     def __str__(self):
-        return self.name
+        return self.first_name
 
     class Meta:
         verbose_name_plural = 'Resume'
