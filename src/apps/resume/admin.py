@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from src.apps.resume.models import Language, Resume, ProgramminngLanguage
+from src.apps.resume.models import (
+    Language, Resume, ProgramminngLanguage
+)
 
 
 @admin.register(Resume)
