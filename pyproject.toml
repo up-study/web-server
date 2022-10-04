@@ -17,6 +17,8 @@ djangorestframework = "^3.13.1"
 djangorestframework-simplejwt = "^5.2.0"
 psycopg2-binary = "^2.9.3"
 django-redis = "^5.2.0"
+django-filter = "^22.1"
+
 
 [tool.poetry.dev-dependencies]
 flake8 = "^5.0.4"
