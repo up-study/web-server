@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # third apps
     "django_extensions",
     "rest_framework",
+    "django-filter",
     # my apps
     "src.apps.users",
     "src.apps.achievements",
@@ -110,7 +111,8 @@ AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 # Internationalization
@@ -138,20 +140,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
 }
-
-# Redis
-REDIS_HOST = os.environ.get("REDIS_HOST", "0.0.0.0")
-REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
-REDIS_CACHE_LOCATION = os.environ.get("REDIS_CACHE_LOCATION", "1")
-
-# Cache
-CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", "example")
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CACHE_LOCATION}",
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
-        "KEY_PREFIX": CACHE_KEY_PREFIX,
-    }
-}
-CACHE_TTL = 60 * 15  # Cache time to live is 15 minutes
