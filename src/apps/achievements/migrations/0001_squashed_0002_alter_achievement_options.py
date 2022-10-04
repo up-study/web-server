@@ -5,23 +5,33 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('achievements', '0001_initial'), ('achievements', '0002_alter_achievement_options')]
+    replaces = [
+        ("achievements", "0001_initial"),
+        ("achievements", "0002_alter_achievement_options"),
+    ]
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Achievement',
+            name="Achievement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120)),
-                ('description', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=120)),
+                ("description", models.TextField()),
             ],
             options={
-                'verbose_name_plural': 'Achievements',
+                "verbose_name_plural": "Achievements",
             },
         ),
     ]

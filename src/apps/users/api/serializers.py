@@ -5,15 +5,7 @@ from rest_framework import serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = (
-            "id",
-            "username",
-            "email",
-            "phone",
-            "first_name",
-            "last_name",
-            "type"
-        )
+        fields = ("id", "username", "email", "phone", "first_name", "last_name", "type")
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -28,7 +20,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "last_name",
             "type",
             "github_link",
-            "password"
+            "password",
         )
         extra_kwargs = {
             "password": {"write_only": True},
@@ -49,5 +41,5 @@ class ProfileUserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "type",
-            "github_link"
+            "github_link",
         )

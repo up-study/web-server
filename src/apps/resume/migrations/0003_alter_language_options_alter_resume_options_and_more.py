@@ -7,23 +7,28 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('locations', '0001_initial'),
-        ('resume', '0002_delete_studyprogramming_and_more'),
+        ("locations", "0001_initial"),
+        ("resume", "0002_delete_studyprogramming_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='language',
-            options={'verbose_name_plural': 'Language'},
+            name="language",
+            options={"verbose_name_plural": "Language"},
         ),
         migrations.AlterModelOptions(
-            name='resume',
-            options={'verbose_name_plural': 'Resume'},
+            name="resume",
+            options={"verbose_name_plural": "Resume"},
         ),
         migrations.AddField(
-            model_name='resume',
-            name='city',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='cities', to='locations.city'),
+            model_name="resume",
+            name="city",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cities",
+                to="locations.city",
+            ),
             preserve_default=False,
         ),
     ]

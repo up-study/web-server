@@ -12,10 +12,9 @@ class User(AbstractUser):
     phone = models.CharField(_("phone number"), max_length=32, null=True)
 
     type = models.PositiveSmallIntegerField(
-        choices=UserType.choices, verbose_name='User Type',
-        default=UserType.STUDENT
+        choices=UserType.choices, verbose_name="User Type", default=UserType.STUDENT
     )
-    github_link = models.URLField(verbose_name='GitHub Profile', null=True, blank=True)
+    github_link = models.URLField(verbose_name="GitHub Profile", null=True, blank=True)
 
     REQUIRED_FIELDS = ["first_name", "last_name", "email"]
 
@@ -28,16 +27,12 @@ class User(AbstractUser):
 
 class StudentProfile(models.Model):
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="student_profile"
+        User, on_delete=models.CASCADE, related_name="student_profile"
     )
     achievements = models.ManyToManyField(Achievement)
 
 
 class CoachProfile(models.Model):
     user = models.OneToOneField(
-        User,
-        on_delete=models.CASCADE,
-        related_name="coach_profile"
+        User, on_delete=models.CASCADE, related_name="coach_profile"
     )

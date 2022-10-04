@@ -1,8 +1,6 @@
 from django.contrib import admin
 
-from src.apps.locations.models import (
-    Country, City
-)
+from src.apps.locations.models import Country, City
 
 
 @admin.register(Country)

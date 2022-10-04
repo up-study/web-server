@@ -8,7 +8,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from src.apps.base.api.mixins import SerializerPerAction
 from src.apps.users.api.serializers import (
-    UserSerializer, UserCreateSerializer, ProfileUserSerializer
+    UserSerializer,
+    UserCreateSerializer,
+    ProfileUserSerializer,
 )
 
 
@@ -17,7 +19,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
     action_serializers = {
         "default": UserSerializer,
         "create": UserCreateSerializer,
-        "profile": ProfileUserSerializer
+        "profile": ProfileUserSerializer,
     }
 
     @action(detail=False, methods=["GET"], permission_classes=[IsAuthenticated])

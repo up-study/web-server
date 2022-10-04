@@ -9,4 +9,4 @@ class Achievement(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'Achievements'
+        verbose_name_plural = "Achievements"

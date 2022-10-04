@@ -6,19 +6,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resume', '0001_initial'),
+        ("resume", "0001_initial"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='StudyProgramming',
+            name="StudyProgramming",
         ),
         migrations.AlterModelOptions(
-            name='programminnglanguage',
-            options={'verbose_name_plural': 'Programming Language'},
+            name="programminnglanguage",
+            options={"verbose_name_plural": "Programming Language"},
         ),
         migrations.RemoveField(
-            model_name='resume',
-            name='user',
+            model_name="resume",
+            name="user",
         ),
     ]

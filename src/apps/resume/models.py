@@ -5,30 +5,24 @@ class ProgramminngLanguage(models.Model):
     name = models.CharField(
         max_length=120, verbose_name="Name of the Programming Language"
     )
-    code = models.CharField(
-        max_length=120, verbose_name="Name Code"
-    )
+    code = models.CharField(max_length=120, verbose_name="Name Code")
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'Programming Language'
+        verbose_name_plural = "Programming Language"
 
 
 class Language(models.Model):
-    name = models.CharField(
-        max_length=120, verbose_name="Language"
-    )
-    code = models.CharField(
-        max_length=120, verbose_name="Name Code"
-    )
+    name = models.CharField(max_length=120, verbose_name="Language")
+    code = models.CharField(max_length=120, verbose_name="Name Code")
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name_plural = 'Language'
+        verbose_name_plural = "Language"
 
 
 class Resume(models.Model):
@@ -36,24 +30,13 @@ class Resume(models.Model):
     #     'users.User', on_delete=models.CASCADE,
     #     verbose_name='User'
     # )
-    first_name = models.CharField(
-        max_length=120, verbose_name="First Name"
-    )
-    last_name = models.CharField(
-        max_length=120, verbose_name="Last Name"
-    )
-    about_me = models.TextField(
-        verbose_name="About Me"
-    )
-    programming_language = models.ManyToManyField(
-        ProgramminngLanguage
-    )
-    language = models.ManyToManyField(
-        Language
-    )
+    first_name = models.CharField(max_length=120, verbose_name="First Name")
+    last_name = models.CharField(max_length=120, verbose_name="Last Name")
+    about_me = models.TextField(verbose_name="About Me")
+    programming_language = models.ManyToManyField(ProgramminngLanguage)
+    language = models.ManyToManyField(Language)
     city = models.ForeignKey(
-        "locations.City", on_delete=models.CASCADE,
-        related_name="cities"
+        "locations.City", on_delete=models.CASCADE, related_name="cities"
     )
     # TODO perhaps a study program will be added
 
@@ -61,4 +44,4 @@ class Resume(models.Model):
         return self.first_name
 
     class Meta:
-        verbose_name_plural = 'Resume'
+        verbose_name_plural = "Resume"
