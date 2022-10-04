@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     # third apps
     "django_extensions",
     "rest_framework",
-    "django-filter",
+    "django-filters",
     # my apps
     "src.apps.users",
     "src.apps.achievements",
