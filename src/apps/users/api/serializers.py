@@ -1,8 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from src.apps.users.consts import RoleCreateSerializer
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,23 +9,24 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "email",
+            "phone",
             "first_name",
-            "last_name"
+            "last_name",
+            "type"
         )
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    role = serializers.ChoiceField(choices=RoleCreateSerializer)
-
     class Meta:
         model = get_user_model()
         fields = (
             "id",
-            "email",
             "username",
+            "email",
+            "phone",
             "first_name",
             "last_name",
-            "role",
+            "type",
             "github_link",
             "password"
         )
@@ -44,10 +43,11 @@ class ProfileUserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             "id",
-            "email",
             "username",
+            "email",
+            "phone",
             "first_name",
             "last_name",
-            "role",
+            "type",
             "github_link"
         )
