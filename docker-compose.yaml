@@ -11,6 +11,11 @@ services:
       - .env
     ports:
       - ${POSTGRES_PORT}:5432
+  cache:
+    image: redis
+    container_name: up-study-cache
+    ports:
+      - ${REDIS_PORT}:6379
 
 volumes:
   postgres_data:
