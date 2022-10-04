@@ -15,37 +15,90 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Language',
+            name="Language",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Language')),
-                ('code', models.CharField(max_length=120, verbose_name='Name Code')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=120, verbose_name="Language")),
+                ("code", models.CharField(max_length=120, verbose_name="Name Code")),
             ],
         ),
         migrations.CreateModel(
-            name='ProgramminngLanguage',
+            name="ProgramminngLanguage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Name of the Programming Language')),
-                ('code', models.CharField(max_length=120, verbose_name='Name Code')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=120, verbose_name="Name of the Programming Language"
+                    ),
+                ),
+                ("code", models.CharField(max_length=120, verbose_name="Name Code")),
             ],
         ),
         migrations.CreateModel(
-            name='StudyProgramming',
+            name="StudyProgramming",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Resume',
+            name="Resume",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=120, verbose_name='First Name')),
-                ('last_name', models.CharField(max_length=120, verbose_name='Last Name')),
-                ('about_me', models.TextField(verbose_name='About Me')),
-                ('language', models.ManyToManyField(to='resume.language')),
-                ('programming_language', models.ManyToManyField(to='resume.programminnglanguage')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(max_length=120, verbose_name="First Name"),
+                ),
+                (
+                    "last_name",
+                    models.CharField(max_length=120, verbose_name="Last Name"),
+                ),
+                ("about_me", models.TextField(verbose_name="About Me")),
+                ("language", models.ManyToManyField(to="resume.language")),
+                (
+                    "programming_language",
+                    models.ManyToManyField(to="resume.programminnglanguage"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,35 +1,26 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from src.apps.users.consts import RoleCreateSerializer
-
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = (
-            "id",
-            "username",
-            "email",
-            "first_name",
-            "last_name"
-        )
+        fields = ("id", "username", "email", "phone", "first_name", "last_name", "type")
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    role = serializers.ChoiceField(choices=RoleCreateSerializer)
-
     class Meta:
         model = get_user_model()
         fields = (
             "id",
-            "email",
             "username",
+            "email",
+            "phone",
             "first_name",
             "last_name",
-            "role",
+            "type",
             "github_link",
-            "password"
+            "password",
         )
         extra_kwargs = {
             "password": {"write_only": True},
@@ -44,10 +35,11 @@ class ProfileUserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = (
             "id",
-            "email",
             "username",
+            "email",
+            "phone",
             "first_name",
             "last_name",
-            "role",
-            "github_link"
+            "type",
+            "github_link",
         )

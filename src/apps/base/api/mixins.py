@@ -1,8 +1,7 @@
 class SerializerPerAction:
     def get_serializer_class(self):
         assert self.action_serializers, (
-            f"{self.__class__.__name__} needs to define a"
-            "`action_serializers`"
+            f"{self.__class__.__name__} needs to define a" "`action_serializers`"
         )
         assert self.action_serializers.get("default"), (
             f"{self.__class__.__name__} needs to define a"

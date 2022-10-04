@@ -9,7 +9,7 @@ router = SimpleRouter()
 router.register("users", UserViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('api/v1/', include('src.apps.api_auth.api.urls'))
+    path("admin/", admin.site.urls),
+    path("api/v1/", include(router.urls)),
+    path("api/v1/", include("src.apps.api_auth.api.urls")),
 ]

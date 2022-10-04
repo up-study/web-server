@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_alter_user_role'),
+        ("users", "0003_alter_user_role"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='github',
+            model_name="user",
+            name="github",
         ),
         migrations.AddField(
-            model_name='user',
-            name='github_link',
-            field=models.URLField(blank=True, null=True, verbose_name='GitHub Profile'),
+            model_name="user",
+            name="github_link",
+            field=models.URLField(blank=True, null=True, verbose_name="GitHub Profile"),
         ),
     ]
