@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "django_filters",
+    "phonenumber_field",
     # my apps
     "src.apps.users",
     "src.apps.achievements",

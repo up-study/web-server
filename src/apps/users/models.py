@@ -1,4 +1,5 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -9,7 +10,7 @@ from src.apps.achievements.models import Achievement
 
 class User(AbstractUser):
     email = models.EmailField(_("email address"), null=True)
-    phone = models.CharField(_("phone number"), max_length=32, null=True)
+    phone = PhoneNumberField(null=True)
 
     type = models.PositiveSmallIntegerField(
         choices=UserType.choices, verbose_name="User Type", default=UserType.STUDENT
