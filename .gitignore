@@ -9,3 +9,10 @@ __pycache__
 .vscode
 .DS_Store
 pyrightconfig.json
+
+
+# spectacular
+schema.json
+schema.yml
+schema_before.json
+schema_after.json
