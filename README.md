@@ -20,4 +20,13 @@ docker-compose up -d
 poetry install
 pre-commit install
 upstudy migrate
+
+# export schema
+sh scripts/export-schema.sh
+
+# run rapidoc
+sh scripts/run-rapidoc.sh
+
+# look at the difference in schema after code changes
+sh scripts/schema-diffs.sh
 ```
