@@ -1,5 +1,6 @@
 #!/bin/zsh
 
+. .venv/bin/activate
 export DJANGO_SETTINGS_MODULE=src.upstudy.spectacular_settings
 
 rm -f schema.yml schema.json
