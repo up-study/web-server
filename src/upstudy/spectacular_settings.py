@@ -1,9 +1,11 @@
-from .settings import *
+from .settings import *  # noqa[f403]
 
 
-REST_FRAMEWORK["DEFAULT_SCHEMA_CLASS"] = "drf_spectacular.openapi.AutoSchema"
+REST_FRAMEWORK[  # noqa[f405]
+    "DEFAULT_SCHEMA_CLASS"
+] = "drf_spectacular.openapi.AutoSchema"
 
-INSTALLED_APPS.append("drf_spectacular")
+INSTALLED_APPS.append("drf_spectacular")  # noqa[f405]
 
 SPECTACULAR_SETTINGS = {
     "TITLE": "Up-Study Application Server",
