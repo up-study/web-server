@@ -12,4 +12,5 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "Up-Study exchange-education platform application server",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_NO_READ_ONLY_REQUIRED": True,
 }
