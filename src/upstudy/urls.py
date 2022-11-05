@@ -4,11 +4,13 @@ from rest_framework.routers import SimpleRouter
 
 from src.apps.users.api.views import UserViewSet
 from src.apps.resume.api.views import ResumeViewSet
+from src.apps.courses.api.views import CourseViewSet
 
 
 router = SimpleRouter()
 router.register("users", UserViewSet)
 router.register("resume", ResumeViewSet)
+router.register("course", CourseViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
