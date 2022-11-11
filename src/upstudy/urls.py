@@ -10,7 +10,7 @@ from src.apps.courses.api.views import CourseViewSet
 router = SimpleRouter()
 router.register("users", UserViewSet)
 router.register("resume", ResumeViewSet)
-router.register("course", CourseViewSet)
+router.register("courses", CourseViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
