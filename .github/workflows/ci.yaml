@@ -24,6 +24,12 @@ jobs:
         curl -sSL https://install.python-poetry.org | python -
         python -m venv .venv
         poetry install
+    - name: Save Virtual Environment
+      uses: actions/upload-artifact@v3
+      with:
+        name: venv
+        path: ./.venv
+        retention-days: 1
 
   lint:
     name: "Linter"
@@ -31,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Lint with flake8
+      uses: actions/download-artifact@v3
+      with:
+        name: venv
+    - shell: bash
       run: |
         .venv/bin/flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
 
@@ -40,6 +50,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Run Tests
+      uses: actions/download-artifact@v3
+      with:
+        name: venv
+    - shell: bash
       run: |
         .venv/bin/pytest
 
@@ -49,5 +63,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check Migrations
+      uses: actions/download-artifact@v3
+      with:
+        name: venv
+    - shell: bash
       run: |
         .venv/bin/upstudy makemigrations --dry-run --check
