@@ -23,15 +23,12 @@ jobs:
 
         curl -sSL https://install.python-poetry.org | python -
         python -m venv .venv
-        . .venv/bin/activate
         poetry install
 
     - name: Lint with flake8
       run: |
-        . .venv/bin/activate
         flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
 
     - name: Run Tests
       run: |
-        . .venv/bin/activate
         pytest
