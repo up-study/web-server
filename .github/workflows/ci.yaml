@@ -26,21 +26,27 @@ jobs:
         poetry install
 
   lint:
+    name: "Linter"
     needs: build
+    runs-on: ubuntu-latest
     steps:
     - name: Lint with flake8
       run: |
         .venv/bin/flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
 
   test:
+    name: "Unit Tests"
     needs: build
+    runs-on: ubuntu-latest
     steps:
     - name: Run Tests
       run: |
         .venv/bin/pytest
 
   check-migrations:
+    name: "Check Migrations"
     needs: build
+    runs-on: ubuntu-latest
     steps:
     - name: Check Migrations
       run: |
