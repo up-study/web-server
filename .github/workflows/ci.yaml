@@ -31,4 +31,4 @@ jobs:
 
     - name: Run Tests
       run: |
-        .venv/bin/pytest
+        .venv/bin/flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
