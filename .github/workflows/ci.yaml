@@ -25,9 +25,9 @@ jobs:
         python -m venv .venv
         poetry install
 
-    - name: Lint with flake8
-      run: |
-        flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
+      #    - name: Lint with flake8
+      #      run: |
+      #        flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
 
     - name: Run Tests
       run: |
