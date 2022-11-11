@@ -4,68 +4,57 @@ on: [push]
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        python-version: [3.11]
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
 
-    - name: Install dependencies
-      run: |
+    - uses: syphar/restore-pip-download-cache@v1
+      if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+
+    - run: |
 
         curl -sSL https://install.python-poetry.org | python -
-        python -m venv .venv
         poetry install
-    - name: Save Virtual Environment
-      uses: actions/upload-artifact@v3
-      with:
-        name: venv
-        path: ./.venv
-        retention-days: 1
+      if: steps.cache-virtualenv.outputs.cache-hit != 'true'
 
-  lint:
-    name: "Linter"
+  linter:
+    name: Linter
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Lint with flake8
-      uses: actions/download-artifact@v3
-      with:
-        name: venv
-    - shell: bash
-      run: |
-        .venv/bin/flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
 
-  test:
-    name: "Unit Tests"
+    - run: flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
+
+  tests:
+    name: Unit Tests
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Run Tests
-      uses: actions/download-artifact@v3
-      with:
-        name: venv
-    - shell: bash
-      run: |
-        .venv/bin/pytest
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+
+    - run: pytest
 
   check-migrations:
-    name: "Check Migrations"
+    name: Check Migrations
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Check Migrations
-      uses: actions/download-artifact@v3
-      with:
-        name: venv
-    - shell: bash
-      run: |
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+
+    - run: |
         .venv/bin/upstudy makemigrations --dry-run --check
+
