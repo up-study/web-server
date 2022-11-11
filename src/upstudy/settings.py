@@ -13,10 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 load_dotenv()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "django-super-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.getenv("DEBUG"))
+DEBUG = bool(int(os.getenv("DEBUG", 1)))
 
 ALLOWED_HOSTS = ["*"]
 
@@ -79,11 +79,11 @@ WSGI_APPLICATION = "src.upstudy.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": os.environ.get("POSTGRES_PORT"),
+        "NAME": os.getenv("POSTGRES_DB", "postgres"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
+        "HOST": os.getenv("POSTGRES_HOST", "127.0.0.1"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
 

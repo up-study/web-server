@@ -25,14 +25,23 @@ jobs:
         python -m venv .venv
         poetry install
 
+  lint:
+    needs: build
+    steps:
     - name: Lint with flake8
       run: |
         .venv/bin/flake8 src/ --exclude=migrations,__pycache__ --max-line-length 120
 
+  test:
+    needs: build
+    steps:
     - name: Run Tests
       run: |
         .venv/bin/pytest
 
+  check-migrations:
+    needs: build
+    steps:
     - name: Check Migrations
       run: |
         .venv/bin/upstudy makemigrations --dry-run --check
