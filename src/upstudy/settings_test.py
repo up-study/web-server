@@ -1,4 +1,4 @@
-from .settings import *  # noqa[F403,F401]
+from .settings import *
 
 
 DATABASES = {
