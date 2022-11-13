@@ -2,7 +2,6 @@
 .venv
 env
 venv
-db.sqlite3
 
 __pycache__
 .idea
@@ -16,3 +15,6 @@ schema.json
 schema.yml
 schema_before.json
 schema_after.json
+
+# media
+media

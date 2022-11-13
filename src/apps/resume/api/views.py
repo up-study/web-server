@@ -3,7 +3,7 @@ from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 from src.apps.resume.models import Resume
-from src.apps.resume.api.serialezers import ResumeSerializer
+from src.apps.resume.api.serializers import ResumeSerializer
 from src.apps.resume.api.filters import ResumeFilter
 
 
