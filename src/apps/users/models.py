@@ -16,6 +16,9 @@ class User(AbstractUser):
         choices=UserType.choices, verbose_name="User Type", default=UserType.STUDENT
     )
     github_link = models.URLField(verbose_name="GitHub Profile", null=True, blank=True)
+    followers = models.ManyToManyField(
+        "self", related_name="user_followers", blank=True, symmetrical=False
+    )
 
     REQUIRED_FIELDS = ["first_name", "last_name", "email"]
 
