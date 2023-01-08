@@ -17,13 +17,21 @@ class User(AbstractUser):
     )
     github_link = models.URLField(verbose_name="GitHub Profile", null=True, blank=True)
     followers = models.ManyToManyField(
-        "self", related_name="user_followers", blank=True, symmetrical=False
+        "self", related_name="following", blank=True, symmetrical=False
     )
 
     REQUIRED_FIELDS = ["first_name", "last_name", "email"]
 
     def __str__(self):
         return self.username
+
+    @property
+    def followers_amount(self):
+        return self.followers.count()
+
+    @property
+    def following_amount(self):
+        return self.following.count()
 
     class Meta:
         unique_together = ("email", "type")

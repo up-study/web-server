@@ -1,19 +1,48 @@
-from django.contrib.auth import get_user_model
+from src.apps.users.models import User
 from rest_framework import serializers
 from phonenumber_field.serializerfields import PhoneNumberField
 
 
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+        )
+
+
+class FollowUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+        )
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
-        fields = ("id", "username", "email", "phone", "first_name", "last_name", "type")
+        model = User
+        fields = (
+            "id",
+            "username",
+            "email",
+            "phone",
+            "first_name",
+            "last_name",
+            "type",
+            "followers_amount",
+            "following_amount",
+        )
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
     phone = PhoneNumberField()
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = (
             "id",
             "username",
@@ -35,7 +64,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 class ProfileUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = get_user_model()
+        model = User
         fields = (
             "id",
             "username",
