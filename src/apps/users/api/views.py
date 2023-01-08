@@ -1,17 +1,15 @@
-from src.apps.users.models import User
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+from src.apps.users.models import User
 from src.apps.base.api.mixins import SerializerPerAction
 from src.apps.users.api.serializers import (
     UserSerializer,
     UserCreateSerializer,
     ProfileUserSerializer,
-    FollowUserSerializer,
     UserListSerializer,
 )
 
@@ -22,7 +20,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
         "default": UserSerializer,
         "create": UserCreateSerializer,
         "profile": ProfileUserSerializer,
-        "follow": FollowUserSerializer,
+        "follow": UserListSerializer,
         "followers": UserListSerializer,
         "following": UserListSerializer,
     }
@@ -31,7 +29,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
     @action(detail=False, methods=["GET"], permission_classes=[IsAuthenticated])
     def profile(self, request: Request, *args, **kwargs):
         serializer = self.get_serializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data)
 
     @action(detail=True, methods=["GET"], permission_classes=[IsAuthenticated])
     def followers(self, *args, **kwargs):

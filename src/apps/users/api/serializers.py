@@ -1,6 +1,7 @@
-from src.apps.users.models import User
 from rest_framework import serializers
 from phonenumber_field.serializerfields import PhoneNumberField
+
+from src.apps.users.models import User
 
 
 class UserListSerializer(serializers.ModelSerializer):
@@ -13,20 +14,10 @@ class UserListSerializer(serializers.ModelSerializer):
         )
 
 
-class FollowUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = (
-            "id",
-            "username",
-        )
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id",
             "username",
             "email",
             "phone",
@@ -44,7 +35,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id",
             "username",
             "email",
             "phone",
@@ -66,7 +56,6 @@ class ProfileUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id",
             "username",
             "email",
             "phone",
