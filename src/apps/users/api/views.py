@@ -47,7 +47,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=["POST"])
+    @action(detail=True, methods=["POST"], permission_classes=[IsAuthenticated])
     def follow(self, request: Request, *args, **kwargs):
         user = self.get_object()
         request.user.following.add(user)
