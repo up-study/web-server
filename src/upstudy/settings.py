@@ -37,10 +37,6 @@ INSTALLED_APPS = [
     "phonenumber_field",
     # my apps
     "src.apps.users",
-    "src.apps.achievements",
-    "src.apps.resume",
-    "src.apps.locations",
-    "src.apps.courses",
     "src.apps.base",
 ]
 

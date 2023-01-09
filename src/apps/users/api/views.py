@@ -20,7 +20,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
         "default": UserSerializer,
         "create": UserCreateSerializer,
         "profile": ProfileUserSerializer,
-        "follow": UserListSerializer,
+        "follow": None,
         "followers": UserListSerializer,
         "following": UserListSerializer,
     }

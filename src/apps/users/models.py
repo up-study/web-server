@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 from src.apps.users.consts import UserType
-from src.apps.achievements.models import Achievement
 
 
 class User(AbstractUser):
@@ -35,16 +34,3 @@ class User(AbstractUser):
 
     class Meta:
         unique_together = ("email", "type")
-
-
-class StudentProfile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="student_profile"
-    )
-    achievements = models.ManyToManyField(Achievement)
-
-
-class CoachProfile(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="coach_profile"
-    )
