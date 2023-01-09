@@ -21,6 +21,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
         "create": UserCreateSerializer,
         "profile": ProfileUserSerializer,
         "follow": None,
+        "unfollow": None,
         "followers": UserListSerializer,
         "following": UserListSerializer,
     }
@@ -49,4 +50,10 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
     def follow(self, request: Request, *args, **kwargs):
         user = self.get_object()
         request.user.following.add(user)
+        return Response("Successfully")
+
+    @action(detail=True, methods=["POST"], permission_classes=[IsAuthenticated])
+    def unfollow(self, request: Request, *args, **kwargs):
+        user = self.get_object()
+        request.user.following.remove(user)
         return Response("Successfully")
