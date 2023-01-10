@@ -57,4 +57,3 @@ jobs:
 
     - run: |
         upstudy makemigrations --dry-run --check
-
