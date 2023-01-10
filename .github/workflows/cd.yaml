@@ -20,4 +20,5 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             cd ${{ secrets.DEV_DESTINATION }}
+            git pull
             docker-compose up --build -d
