@@ -58,3 +58,23 @@ jobs:
     - run: |
         upstudy makemigrations --dry-run --check
 
+  open-api:
+    name: Create Schema
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - name: create schema.yml
+      uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+
+    - run: |
+        DJANGO_SETTINGS_MODULE=src.upstudy.spectacular_settings upstudy spectacular --file schema.yml
+
+    - name: create schema.yml
+      uses: actions/upload-artifact@v3
+      with:
+        name: open-api-schema
+        path: schema.yml
+
