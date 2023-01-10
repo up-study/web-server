@@ -10,12 +10,42 @@ services:
     env_file:
       - .env
     ports:
-      - ${POSTGRES_PORT}:5432
+      - ${POSTGRES_PORT-5432}:5432
+
   cache:
     image: redis
     container_name: up-study-cache
     ports:
-      - ${REDIS_PORT}:6379
+      - ${REDIS_PORT-6379}:6379
+
+  server:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+      target: production
+    depends_on:
+      - db
+      - cache
+    container_name: up-study-server
+    volumes:
+      - ./static:/opt/pysetup/src/static
+      - ./media:/opt/pysetup/src/media
+    env_file: .env
+    ports:
+      - ${SERVER_PORT-8080}:8000
+
+  open-api:
+    image: mrin9/rapidoc
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+      target: rapidoc-run
+    container_name: up-study-open-api
+    env_file: .env
+    depends_on:
+      - server
+    ports:
+      - ${RAPIDOC_PORT-8090}:80
 
 volumes:
   postgres_data:

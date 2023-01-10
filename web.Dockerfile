@@ -1,5 +1,5 @@
 # `python-base` sets up all our shared environment variables
-FROM python:3.9-slim as python-base
+FROM python:3.11-slim as python-base
 
     # python
 ENV PYTHONUNBUFFERED=1 \
@@ -65,6 +65,23 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 RUN poetry install --no-root
 
 COPY . .
+
+# creating open api schema
+FROM python-base as rapidoc
+
+# copy in our built poetry + venv
+COPY --from=builder-base $POETRY_HOME $POETRY_HOME
+COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+
+ENV DJANGO_SETTINGS_MODULE=src.upstudy.spectacular_settings
+
+RUN ["upstudy", "spectacular", "--file", "schema.yml"]
+
+FROM mrin9/rapidoc as rapidoc-run
+
+COPY --from=rapidoc schema.yml /usr/share/nginx/html/schema.yml
+ENV PAGE_TITLE="Up-Study RapiDoc"
+ENV SPEC_URL="schema.yml"
 
 # `production` image used for runtime
 FROM python-base as production
