@@ -13,6 +13,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-super-secret-key")
 DEBUG = bool(int(os.getenv("DEBUG", 1)))
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://*up-study.me", "http://*up-study.me"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
