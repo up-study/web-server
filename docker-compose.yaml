@@ -15,6 +15,7 @@ services:
   cache:
     image: redis
     container_name: up-study-cache
+    restart: always
     ports:
       - ${REDIS_PORT-6379}:6379
 
@@ -26,6 +27,7 @@ services:
     depends_on:
       - db
       - cache
+    restart: always
     container_name: up-study-server
     volumes:
       - ./static:/opt/pysetup/src/static
@@ -35,11 +37,11 @@ services:
       - ${SERVER_PORT-8080}:8000
 
   open-api:
-    image: mrin9/rapidoc
     build:
       context: .
       dockerfile: web.Dockerfile
       target: rapidoc-run
+    restart: always
     container_name: up-study-open-api
     env_file: .env
     depends_on:
