@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     "phonenumber_field",
+    "post_office",
     # my apps
     "src.apps.users",
     "src.apps.base",
@@ -180,3 +181,12 @@ CACHES = {
     }
 }
 CACHE_TTL = 60 * 15  # Cache time to live is 15 minutes
+
+# Email
+EMAIL_BACKEND = "post_office.EmailBackend"
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_USE_TLS = True
+EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_SUBJECT_PREFIX = "[Up-Study] "

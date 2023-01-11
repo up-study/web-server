@@ -1,12 +1,15 @@
 # Django
 SECRET_KEY='Django secrete key'
 DEBUG=bool
+SERVER_PORT=8000
+RAPIDOC_PORT=8090
 
 # DATABASE
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_DB=postgres
 POSTGRES_PORT=5432
+POSTGRES_HOST=localhost
 
 # CACHE
 REDIS_PORT=6379
@@ -16,3 +19,9 @@ CACHE_KEY_PREFIX=example
 
 # Sentry
 SENTRY_DSN=
+
+# Email
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=example@gmail.com
+EMAIL_HOST_PASSWORD=passwordexample
