@@ -1,6 +1,7 @@
 # Django
 SECRET_KEY='Django secrete key'
 DEBUG=bool
+CSRF_TRUSTED_ORIGINS=http://0.0.0.0:8001/,http://0.0.0.0:8002/
 SERVER_PORT=8000
 RAPIDOC_PORT=8090
 

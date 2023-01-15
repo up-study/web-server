@@ -12,8 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "django-super-secret-key")
 DEBUG = bool(int(os.getenv("DEBUG", 1)))
 
-ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["https://*up-study.me", "http://*up-study.me"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", default="*").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    "CSRF_TRUSTED_ORIGINS", default="http://localhost:8000/"
+).split(",")
+CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", default=True)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -23,6 +26,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # third apps
+    "corsheaders",
     "django_extensions",
     "rest_framework",
     "django_filters",
@@ -36,6 +40,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
