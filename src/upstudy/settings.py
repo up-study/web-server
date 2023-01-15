@@ -190,3 +190,12 @@ EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_SUBJECT_PREFIX = "[Up-Study] "
+
+# Storage
+DEFAULT_FILE_STORAGE = os.getenv(
+    "DEFAULT_FILE_STORAGE", default="django.core.files.storage.FileSystemStorage"
+)
+AWS_STORAGE_BUCKET_NAME = os.getenv("S3_BUCKET")
+AWS_S3_ACCESS_KEY_ID = os.getenv("S3_ACCESS_KEY")
+AWS_S3_SECRET_ACCESS_KEY = os.getenv("S3_SECRET_KEY")
+AWS_QUERYSTRING_AUTH = False
