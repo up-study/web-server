@@ -8,22 +8,42 @@ from src.apps.base.tests import baker
 
 @pytest.mark.django_db
 def test_follow_user(api_client):
-    following_user = baker.make_recipe("users.user")
     user = baker.make_recipe("users.user")
+    user_to_follow = baker.make_recipe("users.user")
+    assert user != user_to_follow, (user.pk, user_to_follow.pk)
     client = api_client()
-    client.force_authenticate(following_user)
-    response = client.post(reverse("user-follow", args=[user.username]), data={})
-    assert response.status_code == status.HTTP_200_OK
+    client.force_authenticate(user)
+
+    response = client.put(reverse("user-follow", (user_to_follow.username,)))
+    assert response.status_code == status.HTTP_200_OK, response.data
+
+    # cannot follow twice
+    response = client.put(reverse("user-follow", (user_to_follow.username,)))
+    assert response.status_code == status.HTTP_226_IM_USED, response.data
 
 
 @pytest.mark.django_db
 def test_unfollow_user(api_client):
-    following_user = baker.make_recipe("users.user")
     user = baker.make_recipe("users.user")
+    user_to_unfollow = baker.make_recipe("users.user")
     client = api_client()
-    client.force_authenticate(following_user)
-    response = client.post(reverse("user-unfollow", args=[user.username]), data={})
-    assert response.status_code == status.HTTP_200_OK
+    client.force_authenticate(user)
+
+    # must fail with 226 since he is not following any user
+    response = client.put(reverse("user-unfollow", (user_to_unfollow.username,)))
+    assert response.status_code == status.HTTP_226_IM_USED
+
+    # start follow to later unfollow test
+    user.following.add(user_to_unfollow)
+
+    # should unfollow successfully
+    response = client.put(reverse("user-unfollow", (user_to_unfollow.username,)))
+    assert response.status_code == status.HTTP_200_OK, response.data
+    assert not user.following.contains(user_to_unfollow)
+
+    # cannot unfollow twice
+    response = client.put(reverse("user-unfollow", (user_to_unfollow.username,)))
+    assert response.status_code == status.HTTP_226_IM_USED, response.data
 
 
 @pytest.mark.django_db

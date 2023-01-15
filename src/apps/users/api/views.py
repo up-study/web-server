@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -12,7 +13,7 @@ from src.apps.users.api.serializers import (
     ProfileUserSerializer,
     UserListSerializer,
 )
-from src.apps.users.api.permissions import SelfOperation
+from src.apps.users.api.permissions import NotSelfOperation
 
 
 class UserViewSet(SerializerPerAction, ModelViewSet):
@@ -49,20 +50,26 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
 
     @action(
         detail=True,
-        methods=["POST"],
-        permission_classes=[IsAuthenticated & SelfOperation],
+        methods=["PUT", "PATCH"],
+        permission_classes=[IsAuthenticated, NotSelfOperation],
     )
     def follow(self, request: Request, *args, **kwargs):
         user = self.get_object()
+        if request.user.following.contains(user):
+            return Response(
+                "You are already following this user", status.HTTP_226_IM_USED
+            )
         request.user.following.add(user)
         return Response("Successfully")
 
     @action(
         detail=True,
-        methods=["POST"],
-        permission_classes=[IsAuthenticated & SelfOperation],
+        methods=["PUT", "PATCH"],
+        permission_classes=[IsAuthenticated, NotSelfOperation],
     )
     def unfollow(self, request: Request, *args, **kwargs):
         user = self.get_object()
+        if not request.user.following.contains(user):
+            return Response("You are not following this user", status.HTTP_226_IM_USED)
         request.user.following.remove(user)
         return Response("Successfully")
