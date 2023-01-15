@@ -18,9 +18,10 @@ def test_follow_user(api_client):
 
 @pytest.mark.django_db
 def test_unfollow_user(api_client):
+    following_user = baker.make_recipe("users.user")
     user = baker.make_recipe("users.user")
     client = api_client()
-    client.force_authenticate(user)
+    client.force_authenticate(following_user)
     response = client.post(reverse("user-unfollow", args=[user.username]), data={})
     assert response.status_code == status.HTTP_200_OK
 
