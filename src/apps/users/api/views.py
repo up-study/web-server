@@ -12,7 +12,7 @@ from src.apps.users.api.serializers import (
     ProfileUserSerializer,
     UserListSerializer,
 )
-from src.apps.users.api.permissions import AnotherUserToFollowUnfollowOrAccessDenied
+from src.apps.users.api.permissions import SelfOperation
 
 
 class UserViewSet(SerializerPerAction, ModelViewSet):
@@ -50,7 +50,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
     @action(
         detail=True,
         methods=["POST"],
-        permission_classes=[IsAuthenticated, AnotherUserToFollowUnfollowOrAccessDenied],
+        permission_classes=[IsAuthenticated & SelfOperation],
     )
     def follow(self, request: Request, *args, **kwargs):
         user = self.get_object()
@@ -60,7 +60,7 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
     @action(
         detail=True,
         methods=["POST"],
-        permission_classes=[IsAuthenticated, AnotherUserToFollowUnfollowOrAccessDenied],
+        permission_classes=[IsAuthenticated & SelfOperation],
     )
     def unfollow(self, request: Request, *args, **kwargs):
         user = self.get_object()
