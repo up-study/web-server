@@ -27,6 +27,9 @@ def test_unfollow_user(api_client):
     user = baker.make_recipe("users.user")
     user_to_unfollow = baker.make_recipe("users.user")
     client = api_client()
+    response = client.put(reverse("user-unfollow", (user_to_unfollow.username,)))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     client.force_authenticate(user)
 
     # must fail with 226 since he is not following any user
@@ -50,8 +53,11 @@ def test_unfollow_user(api_client):
 def test_get_list_followers(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
+    response = client.get(reverse("user-followers", (user.username,)))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     client.force_authenticate(user)
-    response = client.get(reverse("user-followers", args=[user.username]), data={})
+    response = client.get(reverse("user-followers", (user.username,)))
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -59,6 +65,9 @@ def test_get_list_followers(api_client):
 def test_get_list_following(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
+    response = client.get(reverse("user-following", (user.username,)))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     client.force_authenticate(user)
-    response = client.get(reverse("user-following", args=[user.username]), data={})
+    response = client.get(reverse("user-following", (user.username,)))
     assert response.status_code == status.HTTP_200_OK

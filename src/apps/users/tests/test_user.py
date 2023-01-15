@@ -17,7 +17,7 @@ def test_get_user(api_client):
 def test_get_once_user(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
-    response = client.get(reverse("user-detail", args=[user.username]), data={})
+    response = client.get(reverse("user-detail", (user.username,)))
     assert response.status_code == status.HTTP_200_OK
 
 
@@ -45,7 +45,7 @@ def test_delete_user(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
     client.force_authenticate(user)
-    response = client.delete(reverse("user-detail", args=[user.username]), data={})
+    response = client.delete(reverse("user-detail", (user.username,)))
     assert response.status_code == status.HTTP_204_NO_CONTENT
 
 
@@ -54,9 +54,16 @@ def test_update_user(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
     client.force_authenticate(user)
+    data = {"username": "Vasya"}
+
+    response = client.put(
+        reverse("user-detail", (user.username,)), data=data, format="json"
+    )
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
     data = {"username": "Vasya", "email": "vasyapupkin@gmail.com"}
     response = client.put(
-        reverse("user-detail", args=[user.username]), data=data, format="json"
+        reverse("user-detail", (user.username,)), data=data, format="json"
     )
     assert response.status_code == status.HTTP_200_OK
 
@@ -66,8 +73,15 @@ def test_partial_update_user(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
     client.force_authenticate(user)
+
+    data = {"username": "Vasya"}
+    response = client.put(
+        reverse("user-detail", (user.username,)), data=data, format="json"
+    )
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
     data = {"username": "Vasya", "email": "vasyapupkin@gmail.com"}
     response = client.patch(
-        reverse("user-detail", args=[user.username]), data=data, format="json"
+        reverse("user-detail", (user.username,)), data=data, format="json"
     )
     assert response.status_code == status.HTTP_200_OK
