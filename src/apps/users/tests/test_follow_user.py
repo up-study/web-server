@@ -11,7 +11,11 @@ def test_follow_user(api_client):
     user = baker.make_recipe("users.user")
     user_to_follow = baker.make_recipe("users.user")
     assert user != user_to_follow, (user.pk, user_to_follow.pk)
+
     client = api_client()
+    response = client.put(reverse("user-follow", (user_to_follow.username,)))
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     client.force_authenticate(user)
 
     response = client.put(reverse("user-follow", (user_to_follow.username,)))
@@ -20,6 +24,9 @@ def test_follow_user(api_client):
     # cannot follow twice
     response = client.put(reverse("user-follow", (user_to_follow.username,)))
     assert response.status_code == status.HTTP_226_IM_USED, response.data
+
+    response = client.put(reverse("user-follow", ("user",)))
+    assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 @pytest.mark.django_db
@@ -48,6 +55,9 @@ def test_unfollow_user(api_client):
     response = client.put(reverse("user-unfollow", (user_to_unfollow.username,)))
     assert response.status_code == status.HTTP_226_IM_USED, response.data
 
+    response = client.put(reverse("user-unfollow", ("user",)))
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 @pytest.mark.django_db
 def test_get_list_followers(api_client):
@@ -60,6 +70,9 @@ def test_get_list_followers(api_client):
     response = client.get(reverse("user-followers", (user.username,)))
     assert response.status_code == status.HTTP_200_OK
 
+    response = client.get(reverse("user-followers", ("user",)))
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+
 
 @pytest.mark.django_db
 def test_get_list_following(api_client):
@@ -71,3 +84,6 @@ def test_get_list_following(api_client):
     client.force_authenticate(user)
     response = client.get(reverse("user-following", (user.username,)))
     assert response.status_code == status.HTTP_200_OK
+
+    response = client.get(reverse("user-following", ("user",)))
+    assert response.status_code == status.HTTP_404_NOT_FOUND

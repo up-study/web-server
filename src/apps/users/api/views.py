@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from src.apps.users.models import User
-from src.apps.base.api.mixins import SerializerPerAction
+from src.apps.base.api.mixins import PermissionPerAction, SerializerPerAction
 from src.apps.users.api.serializers import (
     UserSerializer,
     UserCreateSerializer,
@@ -16,7 +16,7 @@ from src.apps.users.api.serializers import (
 from src.apps.users.api.permissions import NotSelfOperation
 
 
-class UserViewSet(SerializerPerAction, ModelViewSet):
+class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     queryset = User.objects.all()
     action_serializers = {
         "default": UserSerializer,
@@ -26,6 +26,9 @@ class UserViewSet(SerializerPerAction, ModelViewSet):
         "unfollow": None,
         "followers": UserListSerializer,
         "following": UserListSerializer,
+    }
+    action_permissions = {
+        "default": (IsAuthenticated,),
     }
     lookup_field = "username"
 
