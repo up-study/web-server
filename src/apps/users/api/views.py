@@ -29,33 +29,31 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     }
     action_permissions = {
         "default": (IsAuthenticated,),
+        "follow": (IsAuthenticated, NotSelfOperation),
+        "unfollow": (IsAuthenticated, NotSelfOperation),
     }
     lookup_field = "username"
 
-    @action(detail=False, methods=["GET"], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=["GET"])
     def profile(self, request: Request, *args, **kwargs):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=True, methods=["GET"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["GET"])
     def followers(self, *args, **kwargs):
         user = self.get_object()
         queryset = user.followers.all()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(detail=True, methods=["GET"], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=["GET"])
     def following(self, *args, **kwargs):
         user = self.get_object()
         queryset = user.following.all()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @action(
-        detail=True,
-        methods=["PUT", "PATCH"],
-        permission_classes=[IsAuthenticated, NotSelfOperation],
-    )
+    @action(detail=True, methods=["GET", "PUT", "PATCH"])
     def follow(self, request: Request, *args, **kwargs):
         user = self.get_object()
         if request.user.following.contains(user):
@@ -65,11 +63,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         request.user.following.add(user)
         return Response("Successfully")
 
-    @action(
-        detail=True,
-        methods=["PUT", "PATCH"],
-        permission_classes=[IsAuthenticated, NotSelfOperation],
-    )
+    @action(detail=True, methods=["GET", "PUT", "PATCH"])
     def unfollow(self, request: Request, *args, **kwargs):
         user = self.get_object()
         if not request.user.following.contains(user):
