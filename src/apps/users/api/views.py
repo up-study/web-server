@@ -1,15 +1,17 @@
+import jwt
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from src.upstudy.settings import SECRET_KEY
 from src.apps.users.models import User
 from src.apps.base.api.mixins import PermissionPerAction, SerializerPerAction
 from src.apps.users.api.serializers import (
     UserSerializer,
-    UserCreateSerializer,
+    UserRegistrationSerializer,
     ProfileUserSerializer,
     UserListSerializer,
 )
@@ -20,7 +22,8 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     queryset = User.objects.all()
     action_serializers = {
         "default": UserSerializer,
-        "create": UserCreateSerializer,
+        "create": UserRegistrationSerializer,
+        "verify": None,
         "profile": ProfileUserSerializer,
         "follow": None,
         "unfollow": None,
@@ -29,8 +32,10 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     }
     action_permissions = {
         "default": (IsAuthenticated,),
+        "create": (AllowAny,),
         "follow": (IsAuthenticated, NotSelfOperation),
         "unfollow": (IsAuthenticated, NotSelfOperation),
+        "verify": (AllowAny,),
     }
     lookup_field = "username"
 
@@ -70,3 +75,20 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
             return Response("You are not following this user", status.HTTP_226_IM_USED)
         request.user.following.remove(user)
         return Response("Successfully")
+
+    @action(detail=False, methods=["GET"])
+    def verify(self, request: Request, *args, **kwargs):
+        token = request.GET.get("token")
+        try:
+            payload = jwt.decode(str(token), algorithms=["HS256"], key=SECRET_KEY)
+            user = User.objects.get(id=payload["user_id"])
+
+            if not user.is_active:
+                user.is_active = True
+                user.save()
+
+            return Response("Successful confirmation")
+        except jwt.ExpiredSignatureError:
+            return Response(
+                "The reference period has expired", status=status.HTTP_400_BAD_REQUEST
+            )
