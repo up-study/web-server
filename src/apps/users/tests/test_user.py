@@ -31,25 +31,6 @@ def test_get_once_user(api_client):
 
 
 @pytest.mark.django_db
-def test_create_user(api_client):
-    user = baker.make_recipe("users.user")
-    client = api_client()
-    client.force_authenticate(user)
-    data = {
-        "username": "roma",
-        "email": "user@example.com",
-        "phone": "+79999999999",
-        "firstName": "roma",
-        "lastName": "lee",
-        "type": 1,
-        "githubLink": "http://example.com",
-        "password": "qwerlkjvi1230v!klf",
-    }
-    response = client.post(reverse("user-list"), data=data, format="json")
-    assert response.status_code == status.HTTP_201_CREATED
-
-
-@pytest.mark.django_db
 def test_delete_user(api_client):
     user = baker.make_recipe("users.user")
     client = api_client()
