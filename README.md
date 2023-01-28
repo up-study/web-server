@@ -9,24 +9,16 @@ cd web-server
 cat env_sample > .env
 
 # deploy using docker-compose
-docker-compose up -d
-
-# setup web-server
+docker-compose up --build -d db cache
 # ...
 ```
 
 ## Development
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
+
 poetry install
 pre-commit install
 upstudy migrate
-
-# export schema
-sh scripts/export-schema.sh
-
-# run rapidoc
-sh scripts/run-rapidoc.sh
-
-# look at the difference in schema after code changes
-sh scripts/schema-diffs.sh
 ```
