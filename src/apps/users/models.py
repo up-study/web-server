@@ -5,9 +5,15 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 from src.apps.users.consts import UserType
+from src.apps.base.models import Image
 
 
 class User(AbstractUser):
+    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    email_notifications = models.BooleanField(default=False)
+    wa_notifications = models.BooleanField(default=False)
+    tg_notifications = models.BooleanField(default=False)
+    profile_photo = models.ForeignKey(Image, on_delete=models.CASCADE)
     email = models.EmailField(_("email address"), null=True)
     phone = PhoneNumberField(null=True)
 
