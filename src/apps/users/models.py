@@ -11,7 +11,7 @@ from src.apps.base.models import Image
 
 class User(AbstractUser):
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
-    email_notifications = models.BooleanField(default=False)
+    email_notifications = models.BooleanField(default=True)
     wa_notifications = models.BooleanField(default=False)
     tg_notifications = models.BooleanField(default=False)
     profile_photo = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
