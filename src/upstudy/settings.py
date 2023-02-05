@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     # my apps
     "src.apps.users",
     "src.apps.base",
-    "src.apps.organization",
+    "src.apps.organizations",
 ]
 
 MIDDLEWARE = [
