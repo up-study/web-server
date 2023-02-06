@@ -16,7 +16,7 @@ class Organization(models.Model):
     )
 
 
-class ORGANIZATION_ROLS(models.IntegerChoices):
+class OrganizationRoles(models.IntegerChoices):
     MEMBER = 1, "Member"
     WRITER = 2, "Writer"
     TEACHER = 3, "Teacher"
