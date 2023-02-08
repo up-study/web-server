@@ -30,7 +30,7 @@ class OrganizationRoles(models.IntegerChoices):
 class OrganizationMember(models.Model):
     private = models.BooleanField(default=True)
     role = models.IntegerField(
-        choices=ORGANIZATION_ROLS.choices, default=ORGANIZATION_ROLS.MEMBER
+        choices=OrganizationRoles.choices, default=OrganizationRoles.MEMBER
     )
     organization = models.ForeignKey(
         Organization, on_delete=models.CASCADE, related_name="organizations"
