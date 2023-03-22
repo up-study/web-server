@@ -1,4 +1,6 @@
 import jwt
+
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -76,19 +78,34 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         request.user.following.remove(user)
         return Response("Successfully")
 
-    @action(detail=False, methods=["GET"])
-    def verify(self, request: Request, *args, **kwargs):
-        token = request.GET.get("token")
+    @action(
+        detail=False,
+        methods=["GET"],
+        url_path=r"verify/(?P<token>[\w-]*\.[\w-]*\.[\w-]*)",
+        url_name="verify",
+    )
+    def verify(self, request, token):
         try:
-            payload = jwt.decode(str(token), algorithms=["HS256"], key=SECRET_KEY)
+            payload = jwt.decode(token, algorithms=["HS256"], key=SECRET_KEY)
             user = User.objects.get(id=payload["user_id"])
 
             if not user.is_active:
                 user.is_active = True
                 user.save()
-
             return Response("Successful confirmation")
+
+        except ObjectDoesNotExist:
+            return Response(
+                "The user was not found for confirmation",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
         except jwt.ExpiredSignatureError:
             return Response(
-                "The reference period has expired", status=status.HTTP_400_BAD_REQUEST
+                "The reference period has expired",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except jwt.InvalidSignatureError:
+            return Response(
+                "The reference period has invalid",
+                status=status.HTTP_400_BAD_REQUEST,
             )
