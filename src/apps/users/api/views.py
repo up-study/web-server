@@ -1,6 +1,3 @@
-import jwt
-
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
@@ -8,7 +5,6 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from src.upstudy.settings import SECRET_KEY
 from src.apps.users.models import User
 from src.apps.base.api.mixins import PermissionPerAction, SerializerPerAction
 from src.apps.users.api.serializers import (
@@ -18,6 +14,7 @@ from src.apps.users.api.serializers import (
     UserListSerializer,
 )
 from src.apps.users.api.permissions import NotSelfOperation
+from src.apps.users.api.utils import verification
 
 
 class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
@@ -85,27 +82,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         url_name="verify",
     )
     def verify(self, request, token):
-        try:
-            payload = jwt.decode(token, algorithms=["HS256"], key=SECRET_KEY)
-            user = User.objects.get(id=payload["user_id"])
-
-            if not user.is_active:
-                user.is_active = True
-                user.save()
-            return Response("Successful confirmation")
-
-        except ObjectDoesNotExist:
-            return Response(
-                "The user was not found for confirmation",
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        except jwt.ExpiredSignatureError:
-            return Response(
-                "The reference period has expired",
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        except jwt.InvalidSignatureError:
-            return Response(
-                "The reference period has invalid",
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        message, is_valid = verification(token)
+        if is_valid:
+            return Response(message)
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)

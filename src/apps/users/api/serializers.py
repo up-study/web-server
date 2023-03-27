@@ -1,15 +1,11 @@
 from dotenv import load_dotenv
 
 from rest_framework import serializers
-from rest_framework.reverse import reverse
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from src.apps.users.models import User
-from src.apps.users.api.utils import send_email_to_user
-from src.upstudy.settings import SITE
-from src.upstudy.settings import EmailSubject
+from src.apps.users.api.utils import send_user_verification_email
 
 load_dotenv()
 
@@ -68,19 +64,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data, is_active=False)
-
-        user.set_password(validated_data["password"])
-        user.save()
-
-        token = str(RefreshToken.for_user(user).access_token)
-        verify_email_link = f"{SITE}{reverse('user-verify', (token,))}"
-        data = {
-            "email": validated_data["email"],
-            "subject": str(EmailSubject.VERIFY),
-            "message": "Confirm your email",
-            "html_message": verify_email_link,
-        }
-        send_email_to_user(data)
+        send_user_verification_email(user)
 
         return user
 

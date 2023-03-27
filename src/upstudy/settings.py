@@ -2,7 +2,6 @@ import os
 
 from pathlib import Path
 from dotenv import load_dotenv
-from enum import StrEnum
 
 load_dotenv()
 
@@ -12,7 +11,8 @@ WHITENOISE_ENABLED = bool(os.getenv("WHITENOISE_ENABLED", False))
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "django-super-secret-key")
 DEBUG = bool(int(os.getenv("DEBUG", 1)))
-SITE = os.getenv("SITE", "http://127.0.0.1:8000/")
+APP_SITE = os.getenv("APP_SITE", "http://127.0.0.1:8000/")
+SITE = os.getenv("SITE", "http://127.0.0.1:3000/")
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", default="*").split(",")
 CSRF_TRUSTED_ORIGINS = os.getenv(
@@ -196,12 +196,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = os.getenv("EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-
-
-class EmailSubject(StrEnum):
-    VERIFY = "[Up-Study] Account Verification"
-    RECOVERY_CODE = "[Up-Study] Recovery Code"
-
 
 # Storage
 DEFAULT_FILE_STORAGE = os.getenv(
