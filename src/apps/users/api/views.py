@@ -83,6 +83,5 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     )
     def verify(self, request, token):
         message, is_valid = verification(token)
-        if is_valid:
-            return Response(message)
-        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+        status_code = status.HTTP_200_OK if is_valid else status.HTTP_400_BAD_REQUEST
+        return Response(message, status=status_code)

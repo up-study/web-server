@@ -41,16 +41,15 @@ def verification(token: str):
         )
         user = get_object_or_404(User, id=payload["user_id"])
 
-        if not user.is_active:
-            user.is_active = True
-            user.save()
-        else:
-            return "You have already verified your account", False
-
-        return "Successful confirmation", True
-
     except jwt.ExpiredSignatureError:
         return "The reference period has expired", False
 
     except jwt.InvalidSignatureError:
         return "You have sent invalid token", False
+
+    if user.is_active:
+        return "You have already verified your account", False
+
+    user.is_active = True
+    user.save()
+    return "Successful confirmation", True

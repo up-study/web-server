@@ -1,13 +1,9 @@
-from dotenv import load_dotenv
-
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
 from src.apps.users.models import User
 from src.apps.users.api.utils import send_user_verification_email
-
-load_dotenv()
 
 
 class UserListSerializer(serializers.ModelSerializer):
