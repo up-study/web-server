@@ -49,6 +49,7 @@ pytest-django = "^4.5.2"
 model-bakery = "^1.9.0"
 pytest-freezegun = "^0.4.2"
 urlextract = "^1.8.0"
+ruff = "^0.0.246"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -70,3 +71,10 @@ ignore_missing_model_attributes = true
 
 [tool.poetry.scripts]
 upstudy = "src.manage:main"
+
+[tool.ruff]
+ignore = ["F401", "F403", "F405"]
+exclude = [
+   "migrations",
+]
+line-length = 120
