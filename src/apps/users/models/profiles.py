@@ -1,13 +1,16 @@
 from django.db import models
 from django.db.models import Q
 
+from src.apps.users.models.users import User
+from src.apps.organizations.models import Organization
+
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        "users.User", null=True, blank=True, on_delete=models.CASCADE
+        User, null=True, blank=True, on_delete=models.CASCADE
     )
     organization = models.OneToOneField(
-        "organizations.Organization", null=True, blank=True, on_delete=models.CASCADE
+        Organization, null=True, blank=True, on_delete=models.CASCADE
     )
 
     class Meta:

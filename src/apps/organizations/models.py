@@ -1,7 +1,8 @@
 from django.db import models
 import uuid
 
-from src.apps.users.models import User
+from src.apps.users.models.users import User
+from src.apps.organizations.consts import OrganizationRoles
 
 
 class Organization(models.Model):
@@ -14,17 +15,6 @@ class Organization(models.Model):
     members = models.ManyToManyField(
         User, related_name="organizations", through="OrganizationMember"
     )
-
-
-class OrganizationRoles(models.IntegerChoices):
-    MEMBER = 1, "Member"
-    WRITER = 2, "Writer"
-    TEACHER = 3, "Teacher"
-    REVIEWER = 4, "Reviewer"
-    SUPPORT = 5, "Support"
-    MANAGER = 6, "Manager"
-    CO_OWNER = 7, "Co Owner"
-    OWNER = 8, "Owner"
 
 
 class OrganizationMember(models.Model):
