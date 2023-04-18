@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -12,9 +13,10 @@ from src.apps.users.api.serializers import (
     UserRegistrationSerializer,
     ProfileUserSerializer,
     UserListSerializer,
+    UserChangePasswordSerializer,
 )
 from src.apps.users.api.permissions import NotSelfOperation
-from src.apps.users.api.utils import verification
+from src.apps.users.api.utils import user_change_password, verification
 
 
 class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
@@ -28,6 +30,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         "unfollow": None,
         "followers": UserListSerializer,
         "following": UserListSerializer,
+        "change_password": UserChangePasswordSerializer,
     }
     action_permissions = {
         "default": (IsAuthenticated,),
@@ -35,6 +38,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         "follow": (IsAuthenticated, NotSelfOperation),
         "unfollow": (IsAuthenticated, NotSelfOperation),
         "verify": (AllowAny,),
+        "change_password": (IsAuthenticated,),
     }
     lookup_field = "username"
 
@@ -83,5 +87,13 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     )
     def verify(self, request, token):
         message, is_valid = verification(token)
+        status_code = status.HTTP_200_OK if is_valid else status.HTTP_400_BAD_REQUEST
+        return Response(message, status=status_code)
+
+    @action(detail=True, methods=["PATCH"])
+    def change_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        user = get_object_or_404(User, username=request.user)
+        message, is_valid = user_change_password(serializer, user)
         status_code = status.HTTP_200_OK if is_valid else status.HTTP_400_BAD_REQUEST
         return Response(message, status=status_code)
