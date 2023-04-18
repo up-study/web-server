@@ -58,12 +58,3 @@ def verification(token: str):
     user.is_active = True
     user.save()
     return "Successful confirmation", True
-
-
-def user_change_password(serializer, user):
-    if serializer.is_valid(raise_exception=True):
-        user.set_password(serializer.validated_data.get("new_password"))
-        user.save()
-        return "Password been changed", True
-    else:
-        return serializer.errors, False

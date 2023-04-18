@@ -16,7 +16,9 @@ from src.apps.base.tests import baker
         ("password123", "password123", "password123", status.HTTP_400_BAD_REQUEST),
     ]
 )
-def test_password_change(api_client, old_password, new_password, confirm_new_password, status_code):
+def test_password_change(
+    api_client, old_password, new_password, confirm_new_password, status_code
+):
     client = api_client()
     user = baker.make_recipe("users.user")
     user.set_password("password123")

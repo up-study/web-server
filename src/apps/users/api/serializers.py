@@ -86,24 +86,33 @@ class UserChangePasswordSerializer(serializers.ModelSerializer):
             "confirm_new_password",
         )
 
-    def validate(self, attrs):
+    def validate_old_password(self, old_password):
         user = self.context["request"].user
-        if not user.check_password(attrs["old_password"]):
+        if not user.check_password(old_password):
             raise serializers.ValidationError(
                 {"password": "The old password is incorrect"},
             )
-        if attrs["old_password"] == attrs["new_password"]:
+
+    def validate_new_password(self, new_password):
+        old_password = self.initial_data.get("old_password")
+        confirm_new_password = self.initial_data.get("confirm_new_password")
+        if old_password == new_password:
             raise serializers.ValidationError(
                 {"password": "Passwords match"},
             )
 
-        if attrs["new_password"] != attrs["confirm_new_password"]:
+        if new_password != confirm_new_password:
             raise serializers.ValidationError(
                 {"password": "Password do not match"},
             )
 
-        attrs.pop("confirm_new_password")
-        return attrs
+        return new_password
+
+    def update(self, instance, validated_data):
+        print(validated_data)
+        instance.set_password(validated_data["new_password"])
+        instance.save()
+        return instance
 
 
 class ProfileUserSerializer(serializers.ModelSerializer):

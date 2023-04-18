@@ -1,5 +1,4 @@
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
@@ -16,7 +15,7 @@ from src.apps.users.api.serializers import (
     UserChangePasswordSerializer,
 )
 from src.apps.users.api.permissions import NotSelfOperation
-from src.apps.users.api.utils import user_change_password, verification
+from src.apps.users.api.utils import verification
 
 
 class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
@@ -92,8 +91,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
 
     @action(detail=True, methods=["PATCH"])
     def change_password(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        user = get_object_or_404(User, username=request.user)
-        message, is_valid = user_change_password(serializer, user)
-        status_code = status.HTTP_200_OK if is_valid else status.HTTP_400_BAD_REQUEST
-        return Response(message, status=status_code)
+        serializer = self.get_serializer(data=request.data, instance=request.user)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response("Password was been changed")
