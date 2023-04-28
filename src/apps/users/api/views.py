@@ -12,6 +12,7 @@ from src.apps.users.api.serializers import (
     UserRegistrationSerializer,
     ProfileUserSerializer,
     UserListSerializer,
+    UserChangePasswordSerializer,
 )
 from src.apps.users.api.permissions import NotSelfOperation
 from src.apps.users.api.utils import verification
@@ -28,6 +29,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         "unfollow": None,
         "followers": UserListSerializer,
         "following": UserListSerializer,
+        "change_password": UserChangePasswordSerializer,
     }
     action_permissions = {
         "default": (IsAuthenticated,),
@@ -35,6 +37,7 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         "follow": (IsAuthenticated, NotSelfOperation),
         "unfollow": (IsAuthenticated, NotSelfOperation),
         "verify": (AllowAny,),
+        "change_password": (IsAuthenticated,),
     }
     lookup_field = "username"
 
@@ -85,3 +88,10 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
         message, is_valid = verification(token)
         status_code = status.HTTP_200_OK if is_valid else status.HTTP_400_BAD_REQUEST
         return Response(message, status=status_code)
+
+    @action(detail=True, methods=["PATCH"])
+    def change_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, instance=request.user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response("Password was been changed")
