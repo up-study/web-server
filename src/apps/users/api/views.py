@@ -92,6 +92,6 @@ class UserViewSet(SerializerPerAction, PermissionPerAction, ModelViewSet):
     @action(detail=True, methods=["PATCH"])
     def change_password(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, instance=request.user)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response("Password was been changed")
